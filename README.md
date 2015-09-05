@@ -7,7 +7,7 @@ See also http://make.opendata.ch/wiki/project:foreigners_vote
 
 
 
-# Répartition des sièges
+## Répartition des sièges
 
 http://www.parlament.ch/f/wissen/parlamentswoerterbuch/wahlwoerterbuch/Pages/sitzverteilung.aspx
 
