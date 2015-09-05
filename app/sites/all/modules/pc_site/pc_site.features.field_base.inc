@@ -55,7 +55,7 @@ function pc_site_field_default_field_bases() {
   // Exported field_base: 'field_candidats'
   $field_bases['field_candidats'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 40,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_candidats',
@@ -67,18 +67,17 @@ function pc_site_field_default_field_bases() {
     'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
-      'handler' => 'base',
+      'handler' => 'views',
       'handler_settings' => array(
         'behaviors' => array(
           'views-select-list' => array(
             'status' => 0,
           ),
         ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'politician' => 'politician',
+        'view' => array(
+          'args' => array(),
+          'display_name' => 'entityreference_1',
+          'view_name' => 'candidats_autocomplete',
         ),
       ),
       'target_type' => 'node',
