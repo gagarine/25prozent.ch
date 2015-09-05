@@ -1,0 +1,177 @@
+<?php // $Id$
+
+/**
+ * @file
+ * 
+ * Install, update and uninstall functions for the er module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function er_enable() {
+  variable_set('er_active_bundles', array());
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function er_uninstall() {
+  variable_del('er_active_bundles');
+}
+
+/**
+ * Implements hook_update_N().  Add plural_label field to the er_role table.
+ */
+function er_update_7100(&$sandbox) {
+  db_add_field('er_role', 'name_plural', array('type' => 'varchar', 'length' => '255', 'not null' => TRUE, 'default' => '', 'description' => 'Plural label for entity roles'));
+  return t("Added name_plural field to the er_roles table.");
+}
+
+/**
+ * Implements hook_update_N().  Add to/from formatter fields to the er_definition table.
+ */
+function er_update_7101(&$sandbox) {
+  db_add_field('er_definition', 'formatter_from', array('type' => 'varchar', 'length' => '32', 'not null' => TRUE, 'default' => '', 'description' => 'Formatter to be used when displaying instances on the FROM entity.'));
+  db_add_field('er_definition', 'formatter_to', array('type' => 'varchar', 'length' => '32', 'not null' => TRUE, 'default' => '', 'description' => 'Formatter to be used when displaying instances on the TO entity.'));
+  return t("Added formatter_from and formatter_to fields to the er_definitions table.");
+}
+
+/**
+ * Implements hook_schema().
+ */
+function er_schema() {
+  //TODO: comment fields
+  $schema = array();
+
+  //TODO: Add created/changed/uid fields? revisioning support?
+  $schema['er_definition'] = array(
+    'description' => 'Contains Entity Relationship Definitions',
+    'fields' => array(
+      'did' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'machine_name' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'description' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'party_from_type' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'party_to_type' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'party_from_bundle' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'party_to_bundle' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'party_from_label' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+      ),
+      'party_to_label' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+      ),
+      'party_from_rid' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'party_to_rid' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'formatter_from' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'description' => 'Formatter to be used when displaying instances on the FROM entity.'
+      ),
+      'formatter_to' => array(
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+        'description' => 'Formatter to be used when displaying instances on the TO entity.'
+      )
+    ),
+    'primary key' => array('did'),
+  );
+
+  $schema['er_role'] = array(
+    'description' => 'TODO: please describe this table!',
+    'fields' => array(
+      'rid' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'machine_name' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'name_plural' => array(
+        'description' => 'Plural label for entity roles',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'description' => array(
+        'description' => 'TODO: please describe this field!',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'user_rid' => array(
+        'description' => 'Corresponding User Role ID',
+        'type' => 'varchar',
+        'length' => '32',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('rid'),
+  );
+
+  return $schema;
+}

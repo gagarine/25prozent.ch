@@ -1,0 +1,16 @@
+<?php // $Id$
+
+/**
+ * @file
+ *
+ * Provides Views integration for the Entity Relationships module.
+ */
+
+/**
+ * Implement hook_views_api()
+ */
+function er_views_views_api() {
+  return array(
+    'api' => '3.0-alpha1'
+  );
+}

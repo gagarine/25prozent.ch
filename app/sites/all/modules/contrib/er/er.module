@@ -1,0 +1,645 @@
+<?php // $Id$
+
+/**
+ * @file
+ * 
+ * The Entity Relationships (er) module provides the ability to relate
+ * entities to one another.
+ */
+
+define('ER_FROM', 1);
+define('ER_TO', 2);
+
+/**
+ * Implements hook_permission().
+ */
+function er_permission() {
+  return array(
+    'administer entity relationships' => array(
+      'title' => t('Administer Entity Relationships'),
+      'description' => t('Create and delete entity relationship roles, definitions, and instances.'),
+    ),
+    'create relationship instances' => array(
+      'title' => t('Create Relationship Instances'),
+      'description' => t('Establish releationships between entities.'),
+    ),
+    'delete relationship instances' => array(
+      'title' => t('Delete Relationship Instances'),
+      'description' => t('Delete relationships between entities.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function er_theme($existing, $type, $theme, $path) {
+  return array(
+    'er_instance' => array(
+      'arguments' => array('variables' => array()),
+      'file' => 'er.theme.inc',
+    ),
+    'er_instances' => array(
+      'arguments' => array('variables' => array()),
+      'file' => 'er.theme.inc',
+    )
+  );
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function er_entity_info() {
+  $return = array();
+  $return['er_definition'] = array(      //Entity Relationship Definitions
+    'label' => t('Entity relationship definition'),
+    'controller class' => 'DrupalDefaultEntityController',
+    'base table' => 'er_definition',
+    'entity keys' => array(
+      'id' => 'did',
+      'label' => 'name',
+    ),
+    'fieldable' => TRUE,
+  );
+  $return['er_role'] = array( //Entity Roles
+    'label' => t('Entity role'),
+    'controller class' => 'DrupalDefaultEntityController',
+    'base table' => 'er_role',
+    'entity keys' => array(
+      'id' => 'rid',
+      'label' => 'name',
+    ),
+    'fieldable' => TRUE,
+  );
+  // Each entity definition has its own corresponding instances table... create
+  // a corresponding entity definition for each one.
+
+  // TODO Implement each instance as a bundle of a generic 'er_instance' entity
+  //      (If it's feasible without complicating views support)
+
+  // Wrap in a try block, as hook_entity_info seems to be called before
+  // the module schema gets installed, resulting in an exception
+  try {
+    $definitions = db_select('er_definition', 'erd')
+      ->fields('erd')
+      ->execute()
+      ->fetchAll();
+  }
+  catch (Exception $e){
+    $definitions = array();
+  }
+
+  if (count($definitions)) {
+    foreach ($definitions as $definition) {
+      $table = er_get_instance_table_name($definition);
+      $return[$table] = array(
+        'label' => $definition->name . t('Relationship Instance'),
+        'controller class' => 'DrupalDefaultEntityController',
+        'base table' => $table,
+        'entity keys' => array(
+          'id' => 'iid',
+          'label' => 'iid',
+        ),
+        'fieldable' => FALSE,
+      );
+    }
+  }
+  
+  return $return;
+}
+
+/**
+ * Save an entity role given a role object.
+ */
+function er_role_save($role) {
+  if (!empty($role->name)) {
+    // Prevent leading and trailing spaces in vocabulary names.
+    $role->name = trim($role->name);
+  }
+  if (!isset($role->module)) {
+    $role->module = 'er';
+  }
+  if (!empty($role->rid) && !empty($role->name)) {
+    $status = drupal_write_record('er_role', $role, 'rid');
+  }
+  elseif (empty($role->rid)) {
+    $status = drupal_write_record('er_role', $role);
+  }
+  cache_clear_all();
+  entity_get_controller('er_role')->resetCache();
+  return $status;
+}
+
+/**
+ * Return the relationship definition object given the relationship definition ID.
+ */
+function er_definition_load($did) {
+  $result = er_definition_load_multiple(array($did));
+  return reset($result);
+}
+
+/**
+ * Load multiple relationship definitions based on certain conditions.
+ *
+ * This function should be used whenever you need to load more than one
+ * entity role from the database.
+ *
+ * @see entity_load()
+ *
+ * @param $dids
+ *  An array of entity definition IDs, or FALSE to load all definitions.
+ * @param $conditions
+ *  An array of conditions to add to the query.
+ *
+ * @return
+ *  An array of entity role objects, indexed by rid.
+ */
+function er_definition_load_multiple($dids = array(), $conditions = array()) {
+  return entity_load('er_definition', $dids, $conditions);
+}
+
+/**
+ * Save a relationship definition given a relationship object.
+ */
+function er_definition_save($def) {
+
+  if (!empty($def->name)) {
+    // Prevent leading and trailing spaces in definition names.
+    $def->name = trim($def->name);
+  }
+  if (!isset($def->module)) {
+    $def->module = 'er';
+  }
+  //TODO: check all required fields? (This may not always be invoked via form submission)
+  if (!empty($def->did) && !empty($def->name)) {
+    $status = drupal_write_record('er_definition', $def, 'did');
+    //TODO: invoke a hook_er_definition_update() ?
+  }
+  elseif (empty($def->did)) {
+    $status = drupal_write_record('er_definition', $def);
+    //Create the corresponding instance table.
+    er_instance_table_create($def);
+    //TODO: invoke hook_er_definition_insert() ?
+  }
+  //Find and clear corresponding cache records
+  // TODO: refactor er_clear_instance_cache to support this pattern instead?
+  $from = 'er_inst_from:' . $def->party_from_type . ':';
+  $to = 'er_inst_to:' . $def->party_to_type . ':';
+  cache_clear_all($from, 'cache', TRUE);
+  cache_clear_all($to, 'cache', TRUE);
+  entity_get_controller('er_definition')->resetCache();
+  return $status;
+}
+
+/**
+ * Delete a relationship definition.
+ *
+ * @param $did
+ *   A relationship definition ID.
+ * @return
+ *   Constant indicating items were deleted.
+ */
+function er_definition_delete($did) {
+
+  $def = er_definition_load($did);
+
+  db_delete('er_definition')
+    ->condition('did', $did)
+    ->execute();
+  //TODO: Delete related er_instances records
+
+  entity_get_controller('er_definition')->resetCache();
+
+  //Drop the corresponding instance table
+  db_drop_table(er_get_instance_table_name($def));
+
+  //Find and clear corresponding cache records
+  $from = 'er_inst_from:' . $def->party_from_type . ':';
+  $to = 'er_inst_to:' . $def->party_to_type . ':';
+  cache_clear_all($from, 'cache', TRUE);
+  cache_clear_all($to, 'cache', TRUE);
+
+  return SAVED_DELETED;
+}
+
+/**
+ * Return the role object given the role ID.
+ */
+function er_role_load($rid) {
+  $role = er_role_load_multiple(array($rid));
+  return reset($role);
+}
+
+/**
+ * Load multiple entity roles based on certain conditions.
+ *
+ * This function should be used whenever you need to load more than one
+ * entity role from the database.
+ *
+ * @see entity_load()
+ *
+ * @param $rids
+ *  An array of entity role IDs, or FALSE to load all vocabularies.
+ * @param $conditions
+ *  An array of conditions to add to the query.
+ *
+ * @return
+ *  An array of entity role objects, indexed by rid.
+ */
+function er_role_load_multiple($rids = array(), $conditions = array()) {
+  return entity_load('er_role', $rids, $conditions);
+}
+
+/**
+ * Return the role name given the role object.
+ */
+function er_admin_role_title($role) {
+  return check_plain($role->name);
+}
+
+/**
+ * Delete an entity role.
+ *
+ * @param $rid
+ *   An entity role ID.
+ * @return
+ *   Constant indicating items were deleted.
+ */
+function er_role_delete($rid) {
+  $role = (array) er_role_load($rid);
+  db_delete('er_role')
+    ->condition('rid', $rid)
+    ->execute();
+  //TODO: Delete related er_relationship and er_relationship_instances records
+ /* $result = db_query('SELECT tid FROM {taxonomy_term_data} WHERE vid = :vid', array(':vid' => $vid))->fetchCol();
+  foreach ($result as $tid) {
+    taxonomy_term_delete($tid);
+  }
+  field_attach_delete_bundle('taxonomy_term', $vocabulary['machine_name']);
+  module_invoke_all('taxonomy', 'delete', 'vocabulary', $vocabulary);
+ */
+  cache_clear_all();
+  entity_get_controller('er_role')->resetCache();
+  return SAVED_DELETED;
+}
+
+/**
+ * Create an entity relationship instance.
+ *
+ * TODO: Do dupe checking before insert
+ *
+ * @param $did
+ * @param $party_from_id
+ * @param $party_to_id
+ *
+ * @return unknown_type
+ */
+function er_instance_create($did, $party_from_id, $party_to_id) {
+  module_invoke_all('er_instance_create', $did, $party_from_id, $party_to_id);
+
+  $def = er_definition_load($did);
+  $table = er_get_instance_table_name($def);
+
+  db_insert($table)
+    ->fields(array(
+       'did' => $did,
+       'party_from_id' => $party_from_id,
+       'party_to_id' => $party_to_id,
+    ))
+    ->execute();
+
+  er_clear_instance_cache($def->party_from_type, array($party_from_id, $party_to_id));
+
+}
+
+/**
+ * Delete a relationship instance.
+ * @param $did
+ * @param $party_from_id
+ * @param $party_to_id
+ *
+ * @return void
+ */
+function er_instance_delete($did, $party_from_id, $party_to_id) {
+  module_invoke_all('er_instance_delete', $did, $party_from_id, $party_to_id);
+
+  $def = er_definition_load($did);
+  $table_name = er_get_instance_table_name($def);
+
+  db_delete($table_name)
+    ->condition('did', $did)
+    ->condition('party_from_id', $party_from_id)
+    ->condition('party_to_id', $party_to_id)
+    ->execute();
+  
+  er_clear_instance_cache($def->party_from_type, array($party_from_id, $party_to_id));
+}
+
+/**
+ * Flip the party from / party to IDs in a given relationship instance.
+ *
+ * TODO: Requires type checking of each entity to make sure they can be
+ * swapped.  Function disabled for the nonce.
+ * 
+ * @param <type> $did
+ * @param <type> $party_from_id
+ * @param <type> $party_to_id
+ */
+//function er_instance_reverse($did, $party_from_id, $party_to_id) {
+//  db_update('er_instance')
+//    ->fields(array(
+//      'party_from_id' => $party_to_id,
+//      'party_to_id' => $party_from_id,
+//    ))
+//    ->condition('did', $did, ' = ')
+//    ->condition('party_from_id', $party_from_id, ' = ')
+//    ->condition('party_to_id', $party_to_id, ' = ')
+//    ->execute();
+//}
+
+
+/**
+ * Wrapper for entity_get_info that takes an additional parameter allowing the list
+ * to be filtered against the er_active_bundles variable
+ *
+ * @param $filter Boolean indicating whether or not the list of entity types
+ *        should be filtered using the er_active_bundles system variable
+ * @param $include_empty Boolean indicating whether or not the first element
+ *        of the returned array should have an empty value with a key of
+ *        '--Select--', for use in FAPI elements.
+ * @return array
+ */
+function _er_get_bundle_types($filter = FALSE, $include_empty = TRUE) {
+  //Get list of all available entity types
+  $entities = module_invoke_all('entity_info');
+
+  $bundle_options = array();
+
+  if ($include_empty) {
+    $bundle_options = array('' => t('--Select--'));
+  }
+  if ($filter) {
+    $active_bundles = variable_get('er_active_bundles', array());
+  }
+
+  foreach (entity_get_info() as $entity => $info) {
+    foreach (array_keys($info['bundles']) as $bundle) {
+      if (($filter == TRUE && in_array($bundle, $active_bundles))) {
+        $bundle_options[$bundle] = $info['bundles'][$bundle]['label'];
+      }
+      elseif ($filter == FALSE) {
+        $bundle_options[$bundle] = $info['bundles'][$bundle]['label'];
+      }
+    }
+  }
+
+  return $bundle_options;
+}
+
+/**
+ * Implements hook_hook_info().
+ */
+function er_hook_info() {
+  $hooks['er_info'] = array(
+    'group' => 'er',
+  );
+  return $hooks;
+}
+
+/**
+ * Implements hook_er_info().
+ */
+function er_er_info() {
+  // Return format:
+  //  array(
+  //    'entity_type' => array(
+  //      'bundle_type' => 'form_id'
+  //    ),
+  //  );
+
+  $bundle_forms = array('node', 'user');
+
+  //Include support for node bundles
+  $node_info = field_info_bundles('node');
+
+  foreach ($node_info as $key => $val) {
+    $bundle_forms['node'][$key] = $key . '_node_form';
+  }
+  $bundle_forms['node']['form_id'] = "nid['#value']";
+
+  //Add support for the user form
+  $bundle_forms['user']['user'] = 'user_profile_form';
+  $bundle_forms['user']['form_id'] = "#user->uid";
+
+  $bundle_forms['er_definition']['er_definition'] = 'er_definition_form';
+  $bundle_forms['er_definition']['form_id'] = "#er['did']";
+
+  return $bundle_forms;
+}
+
+/**
+ * Given an entity ID, find existing entity relationship instances for that
+ * entity (if any) and return an array with information about each instance
+ *
+ * @param int $eid
+ * @param int Lookup mode - ER_FROM or ER_TO.
+ */
+function er_get_instances($entity, $type, $direction = ER_FROM) {
+
+  // If the entity has no ID, it's brand new and has no associated
+  // ER instances; return empty
+  if (!isset($entity->er_id)) {
+    return array();
+  }
+  // See if we already have instances cached
+  $cache_name = '';
+  switch ($direction) {
+    case ER_FROM:
+      $cache_name = 'er_inst_from:' . $type . ':';
+      break;
+    case ER_TO:
+      $cache_name = 'er_inst_to:' . $type . ':';
+  }
+  $cid = $cache_name . $entity->er_id;
+  $er_instances_cache = cache_get($cid);
+
+  if (!$er_instances_cache) {
+    // Find ER definitions in which this entity is on the designated side
+    // of the relationship.
+    $query = db_select('er_definition', 'erd');
+    $query->fields('erd');
+    switch ($direction) {
+      case ER_FROM:
+        $query->condition('party_from_type', $type);
+        break;
+      case ER_TO:
+        $query->condition('party_to_type', $type);
+    }
+    $defs = $query->execute()->fetchAll();
+    // For each definition, get instances & definition metadata from the
+    // er_definitions table & appropriate instances table
+    $er_instances = array();
+
+    if (count($defs)) {
+      foreach ($defs as $def) {
+        $table = er_get_instance_table_name($def);
+        $query = db_select($table, 'eri');
+        $query->addJoin('left', 'er_definition', 'erd', 'erd.did = eri.did');
+        $query->fields('eri');
+        $query->fields('erd');
+        $query->orderBy('erd.did');
+        $query->orderBy('name');
+        switch ($direction) {
+          case ER_FROM:
+            $query->condition('party_from_id', $entity->er_id);
+            break;
+          case ER_TO:
+            $query->condition('party_to_id', $entity->er_id);
+        }
+        $results = $query->execute()->fetchAll();
+
+        foreach ($results as $instance) {
+          switch ($direction) {
+            case ER_FROM:
+              $from = reset(entity_load($instance->party_from_type, array($entity->er_id)));
+              $to   = reset(entity_load($instance->party_to_type, array($instance->party_to_id)));
+              break;
+            case ER_TO:
+              $from = reset(entity_load($instance->party_from_type, array($instance->party_from_id)));
+              $to   = reset(entity_load($instance->party_to_type, array($entity->er_id)));
+          }
+
+          $instance->from_role         = er_role_load($instance->party_from_rid);
+          $instance->to_role           = er_role_load($instance->party_to_rid);
+          $instance->entity_from_label = entity_label($instance->party_from_type, $from);
+          $instance->entity_from_uri   = entity_uri($instance->party_from_type, $from);
+          $instance->entity_to_label   = entity_label($instance->party_to_type, $to);
+          $instance->entity_to_uri     = entity_uri($instance->party_to_type, $to);
+          $er_instances[$instance->did][$instance->iid] = $instance;
+        }
+      }
+    }
+    
+    cache_set($cid, $er_instances);
+    
+  }
+  else {
+    $er_instances = $er_instances_cache->data;
+  }
+
+  return $er_instances;
+}
+
+/**
+ * Implements hook_entity_load().
+ */
+function er_entity_load($entities, $type) {
+  foreach ($entities as $id => $entity) {
+    //Copy the entity's ID and type to a univerally accessible property
+    $entity->er_id = $id;
+    $entity->er_type = $type;
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function er_entity_view($entity, $type, $view_mode, $langcode) {
+
+  // We need access to formatters here.
+  module_load_include('inc', 'er', 'er.formatters');
+
+  // Load entity relationship instances here. (hook_entity_load causes recursion
+  // and makes PHP go boom. There's probably a better place or way to do this,
+  // but here we are for now.
+
+  // TODO should probably cache formatter info
+  $formatters = module_invoke_all('er_formatter_info');
+  $entity->content['er'] = array('class' => 'er-instances');
+
+  //Get 'FROM' instances
+  foreach (er_get_instances($entity, $type) AS $did => $from_instances) {
+    $def = er_definition_load($did);
+    $formatter = $formatters[$def->formatter_from]['callback'];
+    if(function_exists($formatter)) {
+      $entity->content['er']['from'][$def->machine_name] = $formatter($from_instances, $def);
+    }
+  }
+  //Get 'TO' instances
+  foreach (er_get_instances($entity, $type, ER_TO) AS $did => $from_instances) {
+    $def = er_definition_load($did);
+    $formatter = $formatters[$def->formatter_to]['callback'];
+    if(function_exists($formatter)) {
+      $entity->content['er']['to'][$def->machine_name] = $formatter($from_instances, $def, ER_TO);
+    }
+  }
+}
+
+
+function er_instance_table_create($definition) {
+  // When a new ER Definition is created, we need to build a new table to
+  // store instances of that definition; each definition gets its own
+  // instances table to facilitate views integration.
+
+  $table_name = er_get_instance_table_name($definition);
+  db_create_table($table_name, er_instance_schema());
+
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function er_schema_alter(&$schema) {
+  // For each ER definition defined in the system, tell the system about its
+  // corresponding instance table.
+  $er_definitions = er_definition_load_multiple();
+  foreach ($er_definitions as $definition) {
+    $table = er_get_instance_table_name($definition);
+    $schema[$table] = er_instance_schema();
+  }
+}
+
+function er_get_instance_table_name($definition)  {
+  return 'er_instance_' . $definition->machine_name;
+}
+
+function er_instance_schema() { //Todo pass a $def object in and make the description a little more specific
+  return array(
+    'description' => 'Stores individual instances of entity relationships',
+    'fields' => array(
+      'iid' => array(
+        'description' => 'The serial ID of the instance itself',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'did' => array(
+        'description' => 'The ID of the relationship definition',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'party_from_id' => array(
+        'description' => 'The ID of the entity being related From',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'party_to_id' => array(
+        'description' => 'The ID of the entity being related To',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('iid'),
+    'unique keys' => array(
+      'relationship_instance' => array('did', 'party_from_id', 'party_to_id')
+    ),
+  );
+}
+
+function er_clear_instance_cache($type, $eids) {
+  foreach ($eids as $eid) {
+    $cid = 'er_inst_from:' . $type . ':' . $eid;
+    cache_clear_all($cid, 'cache');
+    $cid = 'er_inst_to:' . $type . ':' . $eid;
+    cache_clear_all($cid, 'cache');
+  }
+}
