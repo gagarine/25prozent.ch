@@ -1,3 +1,10 @@
+# Foreigners vote - 25prozent.ch
+
+
+A Drupal 7 platforme started on the hackdays to let foreigners vote for the 2015 swiss elections. 
+
+See also http://make.opendata.ch/wiki/project:foreigners_vote
+
 
 
 # Répartition des sièges
