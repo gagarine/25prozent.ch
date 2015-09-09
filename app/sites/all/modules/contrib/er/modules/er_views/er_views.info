@@ -1,0 +1,18 @@
+; $Id$
+
+name = Entity Relationships Views
+description = Provides Views support for the Entity Relationships module. Probably broken.
+core = "7.x"
+
+files[] = er_views.info
+files[] = er_views.module
+files[] = views_handler_field_er_definition.inc
+files[] = views_handler_relationship_er_instance.inc
+
+dependencies[] = er
+; Information added by drupal.org packaging script on 2013-09-30
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "er"
+datestamp = "1380577112"
+

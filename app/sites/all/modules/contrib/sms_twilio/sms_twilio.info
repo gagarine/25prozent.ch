@@ -1,0 +1,14 @@
+name = "Twilio"
+description = "Allows the SMS Framework to use twilio.com as a gateway."
+package = SMS Framework
+dependencies[] = sms
+core = 7.x
+
+files[] = sms_twilio.module
+
+; Information added by drupal.org packaging script on 2013-10-01
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "sms_twilio"
+datestamp = "1380628966"
+

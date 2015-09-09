@@ -1,0 +1,8 @@
+.view-filters{
+  margin: 20px 0px 40px;
+  background-color: $seashell;
+  padding: 10px 30px;
+  .form-submit{
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  }
+}

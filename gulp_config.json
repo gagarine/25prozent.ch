@@ -1,0 +1,18 @@
+{
+  "app": {
+    "env": "dev"
+  },
+  "vendors": {
+    "css": [
+      ""
+    ],
+    "fonts": [
+      "../node_modules/bootstrap-sass/assets/fonts/bootstrap/*",
+      "../node_modules/font-awesome/fonts/*"
+    ]
+  },
+  "tasks":  "./tasks/",
+  "assets": "app/sites/all/themes/learn/assets/",
+  "build": "app/sites/all/themes/learn//css/",
+  "browsers": ["last 2 versions", "safari 5", "ie 8", "ie 9", "ff 27", "opera 12.1"]
+}

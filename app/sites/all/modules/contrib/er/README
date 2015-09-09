@@ -1,0 +1,8 @@
+$Id$
+
+2010-04-27
+
+The Entity Relationships (er) package provides an abstract way in which 
+Drupal entities may be related to one another independently of the entities
+themselves, thereby avoiding many of the constraints and headaches arising
+from storing relationship data as fields on one entity or another.

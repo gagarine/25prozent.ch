@@ -1,0 +1,370 @@
+<?php // $Id$
+
+/**
+ * @file
+ * 
+ * The Entity Relationships UI (er_ui) module provides admin and contextual
+ * entity editing user interface for the Entity Relationships API.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function er_ui_menu() {
+
+  // Administration pages.
+
+  $items['admin/structure/er'] = array(
+    'title' => 'Entity Relationships',
+    'description' => 'Define ways in which entities can be related to one another',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_definition_admin_form'),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'weight' => 0,
+  );
+  $items['admin/structure/er/definition'] = array(
+    'title' => 'Relationship Definitions',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 2
+  );
+  $items['admin/structure/er/definition/add'] = array(
+    'title' => 'Add New Relationship Definition',
+    'description' => 'Add a new Entity Relationship Definition which can be used to related entities to one another.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_definition_form'),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_LOCAL_ACTION,
+    'weight' => 4
+  );
+  $items['admin/structure/er/definition/%er_definition'] = array(
+    'title' => 'Edit Relationship Definition',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_definition_form', 4),
+    //'title callback' => 'taxonomy_admin_vocabulary_title_callback',
+    //'title arguments' => array(3),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/structure/er/role'] = array(
+    'title' => 'Entity Roles',
+    'description' => 'Entity Roles describe the way in which one entity relates to another.  They may be linked to corresponding User roles.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_role_admin_form'),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 6,
+  );
+  $items['admin/structure/er/role/add'] = array(
+    'title' => 'Add New Entity Role',
+    'description' => 'Add a new Entity Role.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_role_form'),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_LOCAL_ACTION,
+    'weight' => 8
+  );
+  $items['admin/structure/er/role/%er_role'] = array(
+    'title' => 'Edit Role',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_role_form', 4),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/structure/er/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('er_ui_settings_form'),
+    'access arguments' => array('administer entity relationships'),
+    'file' => 'er_ui.admin.inc',
+    'file path' => drupal_get_path('module', 'er_ui'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function er_ui_form_alter(&$form, &$form_state, $form_id) {
+
+  //TODO: cache a list of which form IDs should be altered?
+  //Get list of bundles and their respective forms from modules that implement hook_er_info().
+  $er_info = module_invoke_all('er_info');
+
+//  //Get list of bundles that support entity relationships
+  $active_bundles = variable_get('er_active_bundles', array());
+
+  foreach ($er_info as $entity_type => $bundles) {
+    if (is_array($bundles)) {
+      foreach ($bundles as $bundle => $bundle_form_id) {
+      //If $bundle is in the active bundles list and the current form matches, alter it
+        if ($bundle_form_id == $form_id && in_array($bundle, $active_bundles)) {
+          er_ui_entity_form_alter($form, $form_state, $entity_type, $bundle);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Extended form alter function to add relationship editing UI to entity forms.
+ * 
+ * @param <type> $form
+ * @param <type> $form_state
+ * @param <type> $entity_type
+ * @param <type> $bundle
+ */
+function er_ui_entity_form_alter(&$form, &$form_state, $entity_type, $bundle) {
+
+  drupal_add_js(drupal_get_path('module', 'er_ui') . '/er_ui.js');
+  
+  // Include out-of-the-box support for Nodes and Users.  Other modules will
+  // Need to implement their own hook_form_alter to tell ER what the entity
+  // ID is
+  switch ($entity_type) {
+    case 'node':
+      $id = $form['nid']['#value'];
+      break;
+    case 'user':
+      $id = $form['#user']->uid;
+      break;
+  }
+
+  $form['#er_entity_id'] = $id;
+  if ($id) {
+    $base_entity = reset(entity_load($entity_type, array($form['#er_entity_id'])));
+    $form['#er_entity_label'] = entity_label($entity_type, $base_entity);
+  }
+
+  $form['er'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Relationships'),
+    '#collapsible' => TRUE,
+    '#tree' => TRUE,
+    '#attributes' => array(
+      'class' => array('entity-relationship-form'),
+    ),
+  );
+  if (!$id) {
+    $markup = '<h4 class="warning">' . t('New Entity') . '</h4>';
+    $markup .= '<p class="warning">' . t("(It looks like you're creating a
+                    new entity. After you've saved, you can re-edit to manage
+                    its relationships.)") . '</p>';
+    $form['er']['er_no_id'] = array(
+      '#markup' => $markup,
+    );
+  }
+  
+  $form['er']['er_existing_title'] = array(
+    '#markup' => '<h4>' . t('Existing Relationships') . '</h4>'
+  );
+
+  if ($id) {
+    $existing_from = er_get_instances($base_entity, $entity_type, ER_FROM);
+    $existing_to   = er_get_instances($base_entity, $entity_type, ER_TO);
+  }
+  else {
+    $existing_from = array();
+    $existing_to   = array();
+  }
+  //TODO - fix view/delete if/else branching so count gets preserved for both
+  $rows = array();
+  if (user_access('delete relationship instances')) {
+    $header = array(
+      'description' => t('Description'),
+    );
+
+    if (count($existing_from)) {
+      foreach ($existing_from as $did => $from_instances) {
+        //TODO possible to have a TH row with the definition label?
+        foreach ($from_instances as $instance) {
+          $id = $instance->did . '|' . $instance->party_from_id . '|' . $instance->party_to_id;
+          $rows[$id] = array('description' => theme('er_instance', array('instance' => $instance, 'direction' => ER_FROM)));
+        }
+      }
+    }
+    if (count($existing_to)) {
+      foreach ($existing_to as $did => $to_instances) {
+        //TODO possible to have a TH row with the definition label?
+        foreach ($to_instances as $instance) {
+          $id = $instance->did . '|' . $instance->party_to_id . '|' . $instance->party_from_id;
+          $rows[$id] = array('description' => theme('er_instance', array('instance' => $instance, 'direction' => ER_TO)));
+        }
+      }
+    }
+
+    if (count($rows)) {
+
+      $form['er']['existing_instances'] = array(
+        '#type'  => 'tableselect',
+        '#header'  => $header,
+        '#options' => $rows,
+      );
+
+      //TODO make actions pluggable
+      $form['er']['er_action'] = array(
+        '#type' => 'select',
+        '#title' => t('With Selected'),
+        '#default_value' => 'delete',
+        '#description' => t("The selected relationships will be deleted.  This will NOT affect the related entities
+          themselves, only the connection between them."),
+        '#options' => array(
+          '' => t('-----'),
+          'delete' => t('Delete'),
+  //        'reverse' => t('Reverse'), (would be useful but will require type checking)
+        )
+      );
+    }
+    else {
+      $form['er']['existing_note'] = array(
+        '#markup' => '<p>' . t("This entity has no existing relationships.") . '</p>',
+      );
+    }
+    $relationship_count = count($rows);
+  }
+  elseif ($id) {
+    $form['er']['er_instances_from_from'] = array(
+      '#markup' => theme('er_instances', array('instances' => $existing_from, 'direction' => ER_FROM)),
+    );
+    $form['er']['er_instances_from_to'] = array(
+      '#markup' => theme('er_instances', array('instances' => $existing_to, 'direction' => ER_TO)),
+    );
+    //TODO drill down and get the actual count for people who can't edit
+    $relationship_count = 0;
+  }
+
+  // Store the existing relationship count for use by the fieldset summary
+  // http://wtanaka.com/node/7813
+  if ($entity_type == 'node') {
+    $form['er']['#group'] = 'additional_settings';
+    $form['er']['#attached'] = array(
+      'js' => array(drupal_get_path('module', 'er_ui') . '/er.js'),
+    );
+    drupal_add_js(array(
+      'er_ui' => array(
+        'erRelationshipCount' => format_plural($relationship_count, 'Has 1 relationship', 'Has @count relationships'),
+      ),
+    ), 'setting');
+  }
+
+  //Build fields for each possible relationship
+
+  //Get list of relationship definitions that this entity type can relate FROM
+  if (user_access('create relationship instances')) {
+
+    $form['er']['er_new_title'] = array(
+      '#markup' => "<hr/>\n<h4>" . t('New Relationships') . '</h4>'
+    );
+
+    $query = db_select('er_definition', 'erd')
+      ->fields('erd')
+      ->condition('party_from_type', $entity_type)
+      ->condition('party_from_bundle', $bundle)
+      ->orderBy('name');
+
+    $result = $query->execute();
+
+    // Get list of eligible 'to' entities; get 'to' type from definition above
+
+    $new_er_fields = 0;
+    foreach ($result as $definition) {
+      $table = er_get_instance_table_name($definition);
+      // Get list of entity IDs already on the 'to' end of this relationship
+      // so we can exclude them
+      $already_used_query = db_select($table, 'eri');
+      $already_used_query->addField('eri', 'party_to_id', 'id');
+      $already_used_query->condition('eri.did', $definition->did);
+      $already_used_query->condition('eri.party_from_id', $form['#er_entity_id']);
+      $already_used_result = $already_used_query->execute()->fetchAll();
+
+      $already_used = array();
+      foreach ($already_used_result as $result_obj) {
+        $already_used[] = $result_obj->id;
+      }
+     // $already_used = array_values($already_used_query->execute()->fetchAllAssoc());
+      $already_used[] = $form['#er_entity_id'];
+
+      // Get list of entity IDs with the right type and bundle, excluding the
+      // above list.
+
+      $entity_info = entity_get_info($definition->party_to_type);
+
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', $definition->party_to_type);
+      $query->entityCondition('bundle', $definition->party_to_bundle);
+      $query->entityCondition('entity_id', $already_used, 'NOT IN');
+      $result = $query->execute();
+
+      if (isset($result[$definition->party_to_type]) && count($result[$definition->party_to_type])) {
+        $entities = entity_load($definition->party_to_type, array_keys($result[$definition->party_to_type]));
+        if (count($entities)) {
+          $options = array('' => t('--None--'));
+          foreach ($entities as $entity) {
+            $entity_info = entity_extract_ids($definition->party_to_type, $entity);
+            $label = entity_label($definition->party_to_type, $entity);
+            $options[$form['#er_entity_id'] . '|' . $entity_info[0]] = $label;
+          }
+          // TODO - multiple input element styles; auto-complete text or checkboxes?
+          //        (Select list is going to get very unwieldy when dealing with a
+          //        lot of nodes)
+          $form['er']['new_instances'][$definition->did] = array(
+            '#type' => 'select',
+            '#title' => t("@title @party_from_label", array('@title' => $form['#er_entity_label'], '@party_from_label' => $definition->party_from_label)),
+            '#options' => $options,
+            '#attributes' => array('class' => array('er-instance-select')),
+          );
+          $new_er_fields ++;
+        }
+      }
+    }
+    if (!$new_er_fields) {
+      $form['er']['new_instance_note'] = array(
+        '#markup' => '<p>' . t("There are no entities available to relate to at this time.") . '</p>',
+      );
+    }
+    $form['actions']['submit']['#submit'][] = 'er_ui_entity_form_submit';
+  }
+
+}
+
+/**
+ * Handle changes made to entity relationship info
+ */
+function er_ui_entity_form_submit($form, $form_state) {
+
+  //Handle any actions on existing relationships
+  if (isset($form_state['values']['er']['existing_instances'])) {
+    foreach ($form_state['values']['er']['existing_instances'] as $key => $val) {
+      if ($key == $val) {
+        $er_instance = explode('|', $val);
+        $func = 'er_instance_' . $form_state['values']['er']['er_action'];
+        if (function_exists($func)) {
+          $func($er_instance[0], $er_instance[1], $er_instance[2]);
+        }
+      }
+    }
+  }
+
+  //Create records for new relationships, if any.
+  if (isset($form_state['values']['er']['new_instances']) && count($form_state['values']['er']['new_instances'])) {
+    foreach ($form_state['values']['er']['new_instances'] as $did => $info) {
+      if (!empty($info)) {
+        $from_to = explode('|', $info);
+        er_instance_create($did, $from_to[0], $from_to[1]);
+      }
+    }
+  }
+}
