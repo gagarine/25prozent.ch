@@ -1,0 +1,32 @@
+/**
+ * Colors
+ */
+
+// Primary
+$learn-brand: #00c360;
+$brand-primary-dark: darken($learn-brand, 20%);
+$nevada: #6f7072;
+$oslo-gray: #9b9d9e;
+$seashell: #f2f2f2;
+
+// Practical
+$black: #000;
+$white: #fff;
+$silver-sand: #cdcece;
+$mine-shaft: #323232;
+
+// Social
+$facebook: #3b5998;
+$twitter: #55acee;
+
+/**
+ * Fonts
+ */
+
+$font-size-base-small: 18px;
+$headings-baseline: 0.7;
+$margin-top-h1: 15px;
+$margin-bottom-h1: 20px;
+
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300|Roboto+Slab);

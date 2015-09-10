@@ -1,5 +1,5 @@
-name = Pourcent
-description = A Bootstrap Sub-theme.
+name = Prozent
+description = Uses the SASS Bootstrap framework source files and must be compiled (not for beginners).
 core = 7.x
 base theme = bootstrap
 
@@ -18,3 +18,15 @@ regions[sidebar_second] = 'Secondary'
 regions[footer]         = 'Footer'
 regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = css/style.css
+
+
+
+; Disable BootstrapCDN so the compiled LESS source files can be used.
+settings[bootstrap_cdn] = ''

@@ -5,6 +5,12 @@ A Drupal 7 platforme started on the hackdays to let foreigners vote for the 2015
 
 See also http://make.opendata.ch/wiki/project:foreigners_vote
 
+# Install
+```
+bundle install
+npm install
+```
+
 
 
 ## Répartition des sièges

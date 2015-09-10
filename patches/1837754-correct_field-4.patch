@@ -1,0 +1,13 @@
+diff --git a/sms_twilio.module b/sms_twilio.module
+index 5f38e38..4d7e150 100755
+--- a/sms_twilio.module
++++ b/sms_twilio.module
+@@ -92,7 +92,7 @@ function sms_twilio_send_form() {
+  * Callback for sending messages.
+  */
+ function sms_twilio_send($number, $message, $options) {
+-  $number = preg_replace("/[^0-9]/", '', $number);
++  $number = preg_replace("/[^0-9\+]/", '', $number);
+   $number = trim($number);
+   $number = ltrim($number, '0'); // Remove leading zeros
+   if (isset($options['country'])) {
