@@ -17,30 +17,31 @@ npm install
 
 http://www.parlament.ch/f/wissen/parlamentswoerterbuch/wahlwoerterbuch/Pages/sitzverteilung.aspx
 
-    Canton 	Sièges
-    Argovie 	AG 	16
-    Appenzell Rhodes-Extérieures 	AR 	1
-    Appenzell Rhodes-Intérieures 	AI 	1
-    Bâle-Campagne 	BL 	7
-    Bâle-Ville 	BS 	5
-    Berne 	BE 	25
-    Fribourg 	FR 	7
-    Genève 	GE 	11
-    Glaris 	GL 	1
-    Grisons 	GR 	5
-    Jura 	JU 	2
-    Lucerne 	LU 	10
-    Neuchâtel 	NE 	4
-    Nidwald 	NW 	1
-    Obwald 	OW 	1
-    Saint Gall 	SG 	12
-    Schaffhouse 	SH 	2
-    Schwytz 	SZ 	4
-    Soleure 	SO 	6
-    Thurgovie 	TG 	6
-    Tessin 	TI 	8
-    Uri 	UR 	1
-    Vaud 	VD 	18
-    Valais 	VS 	8
-    Zurich 	ZH 	35
-    Zoug 	ZG 	3
+| Canton | Sièges |
+| ------------- | ------------- |
+| AG – Argovie | 16 |
+| AR – Appenzell Rhodes-Extérieures | 1 |
+| AI – Appenzell Rhodes-Intérieures | 1 |
+| BL – Bâle-Campagne | 7 |
+| BS – Bâle-Ville | 5 |
+| BE – Berne | 25 |
+| FR – Fribourg | 7 |
+| GE – Genève | 11 |
+| GL – Glaris | 1 |
+| GR – Grisons | 5 |
+| JU – Jura | 2 |
+| LU – Lucerne | 10 |
+| NE – Neuchâtel | 4 |
+| NW – Nidwald | 1 |
+| OW – Obwald | 1 |
+| SG – Saint Gall | 12 |
+| SH – Schaffhouse | 2 |
+| SZ – Schwytz | 4 |
+| SO – Soleure | 6 |
+| TG – Thurgovie | 6 |
+| TI – Tessin | 8 |
+| UR – Uri | 1 |
+| VD – Vaud | 18 |
+| VS – Valais | 8 |
+| ZH – Zurich | 35 |
+| ZG – Zoug | 3 |
