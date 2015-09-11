@@ -1,0 +1,47 @@
+
+.footer-prozent {
+  margin-top: 60px;
+  padding-bottom: 80px;
+  background: $brand-primary;
+  .circle {
+    margin: auto;
+    height: 15vmax;
+    width: 15vmax;
+    border-radius: 100%;
+    background: $brand-primary-dark;
+    margin-top: -3vmax;
+  }
+
+  h1 {
+    font-family: $font-family-serif;
+    color: #fff;
+    text-align: center;
+    line-height: 2vmax;
+    margin-top: -14vmax;
+    -moz-transform: scale(1) rotate(-5deg) translateX(0px) translateY(0px) skewX(1deg) skewY(1deg);
+  -webkit-transform: scale(1) rotate(-5deg) translateX(0px) translateY(0px) skewX(1deg) skewY(1deg);
+  -o-transform: scale(1) rotate(-5deg) translateX(0px) translateY(0px) skewX(1deg) skewY(1deg);
+  -ms-transform: scale(1) rotate(-5deg) translateX(0px) translateY(0px) skewX(1deg) skewY(1deg);
+  transform: scale(1) rotate(-5deg) translateX(0px) translateY(0px) skewX(1deg) skewY(1deg);
+    /*-----------------------*/
+    text-shadow: 1px 1px $brand-primary-light, 2px 2px $brand-primary-light, 3px 3px $brand-primary-light, 4px 4px $brand-primary-light, 5px 5px $brand-primary-light;
+    span:nth-child(3), span:nth-child(7) {
+    font-size: 2vmax;
+    }
+    span:nth-child(1){
+      font-size: 5vmax;
+    }
+    span:nth-child(9), span:nth-child(5)  {
+      font-size: 4vmax;
+    }
+  }
+
+  h2{
+    font-family: 'Lobster', cursive;
+    color: #fff;
+    text-align: left;
+    font-size: 3vmax;
+  }
+
+
+}

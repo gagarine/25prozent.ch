@@ -3,8 +3,9 @@
  */
 
 // Primary
-$learn-brand: #00c360;
-$brand-primary-dark: darken($learn-brand, 20%);
+$brand-primary: #c34000;
+$brand-primary-light: #e88046;
+$brand-primary-dark: darken($brand-primary, 20%);
 $nevada: #6f7072;
 $oslo-gray: #9b9d9e;
 $seashell: #f2f2f2;
@@ -29,4 +30,5 @@ $margin-top-h1: 15px;
 $margin-bottom-h1: 20px;
 
 
-@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300|Roboto+Slab);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300italic);
+@import url(http://fonts.googleapis.com/css?family=Lobster);

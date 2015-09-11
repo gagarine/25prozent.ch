@@ -5,10 +5,19 @@
 @import 'bootstrap';
 
 @import 'home';
-@import 'lesson';
 @import 'filter';
+@import 'footer';
 
 @import '../node_modules/font-awesome/scss/font-awesome.scss';
 @import 'typography';
 @import 'helpers';
 @import '../../bootstrap/css/overrides.css';
+
+body{
+  background: linear-gradient(to bottom, #ffffff 0%,#fff2ed 100%);
+}
+
+// WTF \00a0 see https://github.com/twbs/bootstrap-sass/issues/919
+.breadcrumb > li + li:before{
+  content: '/';
+}
