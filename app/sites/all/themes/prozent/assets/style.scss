@@ -5,10 +5,14 @@
 @import 'bootstrap';
 
 @import 'home';
-@import 'lesson';
 @import 'filter';
 
 @import '../node_modules/font-awesome/scss/font-awesome.scss';
 @import 'typography';
 @import 'helpers';
 @import '../../bootstrap/css/overrides.css';
+
+// WTF \00a0 see https://github.com/twbs/bootstrap-sass/issues/919
+.breadcrumb > li + li:before{
+  content: '/';
+}
