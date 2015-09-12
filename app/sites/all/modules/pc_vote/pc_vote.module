@@ -17,14 +17,22 @@ function pc_vote_form_node_form_alter(&$form, $form_state) {
   // if you are targeting a specific content type then
   // you can access the type:
   $type = $form['#node']->type;
-  // Then
+
   if ($type == 'vote') {
     // Adapt the number of allowed of vote depending of the user canton
     global $user;
     $user_entity = user_load($user->uid);
-    $canton_of_voter = field_get_items('user',$user_entity, 'field_canton')[0]['value'];
+    $canton_tid = field_get_items('user',$user_entity, 'field_taxo_canton')[0]['tid'];
 
-    $allowed_nbr_vote = get_number_site($canton_of_voter);
+    $canton_term_entity = taxonomy_term_load($canton_tid);
+
+    if($canton_term_entity === false){
+      throw new \Exception("Taxonomy term " . $canton_tid . " not found");
+    }
+
+    $canton_slug = field_get_items('taxonomy_term',$canton_term_entity, 'field_slug')[0]['value'];
+
+    $allowed_nbr_vote = pc_vote_get_number_seats($canton_slug);
     $max_delta = $form['field_candidats']['und']['#max_delta'];
 
     for($i = 0; $i <= $max_delta; $i++){
@@ -52,7 +60,7 @@ function pc_vote_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form
  *
  * @param $canton (two letters abreviation)
  */
-function get_number_site($canton){
+function pc_vote_get_number_seats($canton){
   $siege_by_canton = array(
     'AG' => 16,
     'AR' => 1,

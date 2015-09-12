@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the pc_politician feature.
+ */
+
+include_once 'pc_politician.features.inc';
