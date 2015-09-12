@@ -86,53 +86,28 @@ function pc_site_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_canton'
-  $field_bases['field_canton'] = array(
+  // Exported field_base: 'field_country'
+  $field_bases['field_country'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_canton',
+    'field_name' => 'field_country',
     'indexes' => array(
-      'value' => array(
-        0 => 'value',
+      'iso2' => array(
+        0 => 'iso2',
       ),
     ),
     'locked' => 0,
-    'module' => 'list',
+    'module' => 'countries',
     'settings' => array(
-      'allowed_values' => array(
-        'AG' => 'Aargau',
-        'AI' => 'Appenzell Innerrhoden',
-        'AR' => 'Appenzell Ausserrhoden',
-        'BE' => 'Bern',
-        'BL' => 'Basel-Landschaft',
-        'BS' => 'Basel-Stadt',
-        'FR' => 'Fribourg',
-        'GE' => 'Geneva',
-        'GL' => 'Glarus',
-        'GR' => 'Graubünden',
-        'JU' => 'Jura',
-        'LU' => 'Luzern',
-        'NE' => 'Neuchâtel',
-        'NW' => 'Nidwalden',
-        'OW' => 'Obwalden',
-        'SG' => 'St. Gallen',
-        'SH' => 'Schaffhausen',
-        'SO' => 'Solothurn',
-        'SZ' => 'Schwyz',
-        'TG' => 'Thurgau',
-        'TI' => 'Ticino',
-        'UR' => 'Uri',
-        'VD' => 'Vaud',
-        'VS' => 'Valais',
-        'ZG' => 'Zug',
-        'ZH' => 'Zürich',
-      ),
-      'allowed_values_function' => '',
+      'continents' => array(),
+      'countries' => array(),
+      'enabled' => 1,
+      'size' => 5,
     ),
     'translatable' => 0,
-    'type' => 'list_text',
+    'type' => 'country',
   );
 
   // Exported field_base: 'field_elected'
@@ -461,6 +436,27 @@ function pc_site_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // Exported field_base: 'field_slug'
+  $field_bases['field_slug'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_slug',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 30,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
   // Exported field_base: 'field_tags'
   $field_bases['field_tags'] = array(
     'active' => 1,
@@ -479,6 +475,32 @@ function pc_site_field_default_field_bases() {
       'allowed_values' => array(
         0 => array(
           'vocabulary' => 'tags',
+          'parent' => 0,
+        ),
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'taxonomy_term_reference',
+  );
+
+  // Exported field_base: 'field_taxo_canton'
+  $field_bases['field_taxo_canton'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_taxo_canton',
+    'indexes' => array(
+      'tid' => array(
+        0 => 'tid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'taxonomy',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'canton',
           'parent' => 0,
         ),
       ),
