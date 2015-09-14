@@ -625,8 +625,8 @@ function pc_politician_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-politician-field_portrait'
-  $field_instances['node-politician-field_portrait'] = array(
+  // Exported field_instance: 'node-politician-field_photo'
+  $field_instances['node-politician-field_photo'] = array(
     'bundle' => 'politician',
     'deleted' => 0,
     'description' => '',
@@ -639,7 +639,7 @@ function pc_politician_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 15,
+        'weight' => 23,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -649,13 +649,13 @@ function pc_politician_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_portrait',
-    'label' => 'Portrait',
+    'field_name' => 'field_photo',
+    'label' => 'Photo',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
-      'file_directory' => 'portrait',
+      'file_directory' => 'politician-photo',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
@@ -671,7 +671,7 @@ function pc_politician_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 0,
+      'weight' => 24,
     ),
   );
 
@@ -725,7 +725,7 @@ function pc_politician_field_default_field_instances() {
   t('LINK_portrait');
   t('LINK_twitter');
   t('Last name');
-  t('Portrait');
+  t('Photo');
   t('elected');
   t('incumbent');
   t('list');

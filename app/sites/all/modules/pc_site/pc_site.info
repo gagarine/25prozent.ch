@@ -29,7 +29,6 @@ features[field_base][] = field_link_twitter
 features[field_base][] = field_list
 features[field_base][] = field_list_place_1
 features[field_base][] = field_party_short
-features[field_base][] = field_portrait
 features[field_base][] = field_slug
 features[field_base][] = field_tags
 features[field_base][] = field_taxo_canton
