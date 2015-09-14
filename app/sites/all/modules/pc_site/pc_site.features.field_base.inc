@@ -31,27 +31,6 @@ function pc_site_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'comment_body'
-  $field_bases['comment_body'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(
-      0 => 'comment',
-    ),
-    'field_name' => 'comment_body',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
   // Exported field_base: 'field_candidats'
   $field_bases['field_candidats'] = array(
     'active' => 1,
@@ -75,7 +54,9 @@ function pc_site_field_default_field_bases() {
           ),
         ),
         'view' => array(
-          'args' => array(),
+          'args' => array(
+            0 => '[current-user:field-taxo-canton:tid]',
+          ),
           'display_name' => 'entityreference_1',
           'view_name' => 'candidats_autocomplete',
         ),
@@ -218,12 +199,18 @@ function pc_site_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_id_list',
-    'indexes' => array(),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
     'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 36,
+    ),
     'translatable' => 0,
-    'type' => 'number_integer',
+    'type' => 'text',
   );
 
   // Exported field_base: 'field_id_party'
@@ -365,17 +352,22 @@ function pc_site_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_list',
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'tid' => array(
+        0 => 'tid',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'taxonomy',
     'settings' => array(
-      'max_length' => 255,
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'list_nam',
+          'parent' => 0,
+        ),
+      ),
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'field_list_place_1'
@@ -401,17 +393,22 @@ function pc_site_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_party_short',
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'tid' => array(
+        0 => 'tid',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'taxonomy',
     'settings' => array(
-      'max_length' => 255,
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'party',
+          'parent' => 0,
+        ),
+      ),
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'field_portrait'

@@ -45,6 +45,8 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['field_party_short']['field'] = 'field_party_short';
   $handler->display->display_options['fields']['field_party_short']['label'] = '';
   $handler->display->display_options['fields']['field_party_short']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_party_short']['type'] = 'taxonomy_term_reference_plain';
+  $handler->display->display_options['fields']['field_party_short']['group_column'] = 'value';
   /* Field: Field: Canton */
   $handler->display->display_options['fields']['field_taxo_canton']['id'] = 'field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['table'] = 'field_data_field_taxo_canton';

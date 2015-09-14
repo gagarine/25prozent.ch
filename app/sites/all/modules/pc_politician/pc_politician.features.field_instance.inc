@@ -231,15 +231,10 @@ function pc_politician_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => ' ',
-        ),
-        'type' => 'number_integer',
-        'weight' => 7,
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 19,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -253,18 +248,17 @@ function pc_politician_field_default_field_instances() {
     'label' => 'ID_list',
     'required' => 0,
     'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 9,
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 36,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 20,
     ),
   );
 
@@ -431,6 +425,46 @@ function pc_politician_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-politician-field_link_portrait'
+  $field_instances['node-politician-field_link_portrait'] = array(
+    'bundle' => 'politician',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 20,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_link_portrait',
+    'label' => 'LINK_portrait',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 21,
+    ),
+  );
+
   // Exported field_instance: 'node-politician-field_link_twitter'
   $field_instances['node-politician-field_link_twitter'] = array(
     'bundle' => 'politician',
@@ -480,10 +514,10 @@ function pc_politician_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 8,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 22,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -497,17 +531,14 @@ function pc_politician_field_default_field_instances() {
     'label' => 'list',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 10,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 23,
     ),
   );
 
@@ -566,10 +597,10 @@ function pc_politician_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 21,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -583,17 +614,14 @@ function pc_politician_field_default_field_instances() {
     'label' => 'party_short',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 8,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 22,
     ),
   );
 
@@ -694,6 +722,7 @@ function pc_politician_field_default_field_instances() {
   t('ID_list');
   t('ID_party');
   t('LINK_facebook');
+  t('LINK_portrait');
   t('LINK_twitter');
   t('Last name');
   t('Portrait');
