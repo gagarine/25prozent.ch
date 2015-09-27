@@ -9,6 +9,7 @@ dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[field_instance][] = node-vote-field_candidats
+features[field_instance][] = node-vote-field_list
 features[node][] = vote
 features[user_permission][] = create vote content
 features[user_permission][] = delete any vote content

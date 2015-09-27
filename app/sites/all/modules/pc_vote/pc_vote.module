@@ -33,14 +33,66 @@ function pc_vote_form_node_form_alter(&$form, $form_state) {
     $canton_slug = field_get_items('taxonomy_term',$canton_term_entity, 'field_slug')[0]['value'];
 
     $allowed_nbr_vote = pc_vote_get_number_seats($canton_slug);
-    $max_delta = $form['field_candidats']['und']['#max_delta'];
+    $max_delta = $form['field_candidats'][LANGUAGE_NONE]['#max_delta'];
 
     for($i = 0; $i <= $max_delta; $i++){
       if($i >= $allowed_nbr_vote){
-        unset($form['field_candidats']['und'][$i]);
+        unset($form['field_candidats'][LANGUAGE_NONE][$i]);
       }
     }
+
+    // check if we have a list in param
+    // Set the value to this list id or remove the field
+    $listID = false;
+    if(isset($_GET['listid']) && is_numeric($_GET['listid']) && (int) $_GET['listid'] !== 0) {
+      $listID = $_GET['listid'];
+      $form['field_list'][LANGUAGE_NONE]['#default_value'] = $listID;
+      $form['field_list']['#disabled'] = TRUE;
+    } else {
+      unset($form['field_list']);
+    }
+
+    // If we do have a list, load the candidats
+    if($listID){
+      $candidats = get_candidats($listID, $canton_tid);
+      $field_key = 0;
+      foreach($candidats as $candidat){
+        $form['field_candidats'][LANGUAGE_NONE][$field_key]['target_id']['#default_value'] = $candidat->title . ' (' . $candidat->nid .')';
+        $field_key++;
+      }
+    }
+
   }
+}
+
+/**
+ * Get politicians from a list
+ *
+ * @param $listID
+ * @param $userCantonTid
+ * @return array
+ * @throws \EntityFieldQueryException
+ */
+function get_candidats($listID, $userCantonTid){
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'politician')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('field_list', 'tid', $listID)
+    // Do not load politician if their are from another canton
+    ->fieldCondition('field_taxo_canton', 'tid', $userCantonTid)
+    ->fieldOrderBy('field_list_place_1', 'value', 'ASC')
+    ->range(0, 40);
+
+  $result = $query->execute();
+  if (!isset($result['node'])) {
+    return array();
+  }
+  $candidat_nids = array_keys($result['node']);
+  $candidat = entity_load('node', $candidat_nids);
+
+  return $candidat;
 }
 
 // FIXME validate the number of vote
