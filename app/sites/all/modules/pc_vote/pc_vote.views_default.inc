@@ -101,5 +101,137 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $export['candidats_autocomplete'] = $view;
 
+  $view = new view();
+  $view->name = 'list';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'list';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Lists';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '3600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '3600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '30';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'name',
+      'rendered' => 0,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Content: Taxonomy terms on node */
+  $handler->display->display_options['relationships']['term_node_tid']['id'] = 'term_node_tid';
+  $handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
+  $handler->display->display_options['relationships']['term_node_tid']['field'] = 'term_node_tid';
+  $handler->display->display_options['relationships']['term_node_tid']['label'] = 'term list name';
+  $handler->display->display_options['relationships']['term_node_tid']['vocabularies'] = array(
+    'list_nam' => 'list_nam',
+    'canton' => 0,
+    'party' => 0,
+    'tags' => 0,
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: ID_list */
+  $handler->display->display_options['fields']['field_id_list']['id'] = 'field_id_list';
+  $handler->display->display_options['fields']['field_id_list']['table'] = 'field_data_field_id_list';
+  $handler->display->display_options['fields']['field_id_list']['field'] = 'field_id_list';
+  /* Field: Taxonomy term: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'term_node_tid';
+  $handler->display->display_options['fields']['name']['label'] = 'Liste Name';
+  /* Field: Content: list_place_1 */
+  $handler->display->display_options['fields']['field_list_place_1']['id'] = 'field_list_place_1';
+  $handler->display->display_options['fields']['field_list_place_1']['table'] = 'field_data_field_list_place_1';
+  $handler->display->display_options['fields']['field_list_place_1']['field'] = 'field_list_place_1';
+  $handler->display->display_options['fields']['field_list_place_1']['settings'] = array(
+    'thousand_separator' => ' ',
+    'prefix_suffix' => 1,
+  );
+  /* Field: Taxonomy term: Term ID */
+  $handler->display->display_options['fields']['tid']['id'] = 'tid';
+  $handler->display->display_options['fields']['tid']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['tid']['field'] = 'tid';
+  $handler->display->display_options['fields']['tid']['relationship'] = 'term_node_tid';
+  $handler->display->display_options['fields']['tid']['label'] = '';
+  $handler->display->display_options['fields']['tid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['tid']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['tid']['separator'] = '';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'I chose this list';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = 'node/add/vote?listid=[tid]';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  $handler->display->display_options['sorts']['name']['relationship'] = 'term_node_tid';
+  /* Sort criterion: Content: list_place_1 (field_list_place_1) */
+  $handler->display->display_options['sorts']['field_list_place_1_value']['id'] = 'field_list_place_1_value';
+  $handler->display->display_options['sorts']['field_list_place_1_value']['table'] = 'field_data_field_list_place_1';
+  $handler->display->display_options['sorts']['field_list_place_1_value']['field'] = 'field_list_place_1_value';
+  /* Contextual filter: Field: Canton (field_taxo_canton) */
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['default_argument_type'] = 'php';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['default_argument_options']['code'] = 'global $user;
+$term= user_load($user->uid)->field_taxo_canton;
+return $term[\'und\'][0][\'tid\'];';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_taxo_canton_tid']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'politician' => 'politician',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'list';
+  $export['list'] = $view;
+
   return $export;
 }
