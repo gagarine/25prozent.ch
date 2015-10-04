@@ -165,21 +165,6 @@
   </div>
 </div>
 
-    <!--  this is temp -->
-    <footer class="footer-prozent">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-4">
-            <div class="circle"></div>
-            <h1><span>25%</span><br/><span>des habitants</span><br/><span>en Suisse</span><br/><span>ne peuvent pas</span><br/><span>voter</span></h1>
-          </div>
-          <div class="col-xs-12 col-sm-8">
-            <h2>Si on leur donnait la parole, quel serait le résultat ?</h2>
-          </div>
-        </div>
-      </div>
-    </footer>
-
 
 <?php if (!empty($page['footer'])): ?>
   <footer class="footer <?php print $container_class; ?>">
