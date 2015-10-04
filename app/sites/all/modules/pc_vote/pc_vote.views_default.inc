@@ -164,7 +164,8 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['relationship'] = 'term_node_tid';
-  $handler->display->display_options['fields']['name']['label'] = 'Liste Name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Field: Content: list_place_1 */
   $handler->display->display_options['fields']['field_list_place_1']['id'] = 'field_list_place_1';
   $handler->display->display_options['fields']['field_list_place_1']['table'] = 'field_data_field_list_place_1';
