@@ -154,9 +154,26 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <?php if($is_front): ?>
-          front
-      <?php endif; ?>
+
+        <h1 style="margin-top: 120px;" class="text-center">2015 Swiss federal election</h1>
+        <h2 class="text-center"> – Foreigners get to vote – </h2>
+        <?php if($logged_in): ?>
+          <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Let me vote</a></p>
+        <?php else: ?>
+          <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg">Let me vote</a></p>
+        <?php endif; ?>
+        <p class="text-center">25% of people living in Switzerland are  foreigner. We will report their voice.</p>
+
+        <style>
+
+          .page-header {
+            display: none;
+          }
+        </style>
+
+      <?php else: ?>
       <?php print render($page['content']); ?>
+      <?php endif; ?>
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
