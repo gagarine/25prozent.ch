@@ -164,13 +164,6 @@
         <?php endif; ?>
         <p class="text-center">25% of people living in Switzerland are  foreigner. We will report their voice.</p>
 
-        <style>
-
-          .page-header {
-            display: none;
-          }
-        </style>
-
       <?php else: ?>
       <?php print render($page['content']); ?>
       <?php endif; ?>
