@@ -1,14 +1,16 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the pc_site feature.
  */
+
+include_once 'pc_site.features.inc';
 
 
 function pc_site_form_user_register_form_alter(&$form, &$form_state,$form_id) {
-  $form['#submit'][] = 'pc_site_form_user_register_submit';
+  //$form['#submit'][] = 'pc_site_form_user_register_submit';
 }
 
 function pc_site_form_user_register_submit($form, &$form_state) {
-  $form_state['redirect'] = 'node/add/business';
+  //$form_state['redirect'] = 'user/' . $uid . '/edit/mobile';
 }

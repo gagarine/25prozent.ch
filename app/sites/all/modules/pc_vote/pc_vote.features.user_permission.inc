@@ -14,7 +14,8 @@ function pc_vote_user_default_permissions() {
   $permissions['create vote content'] = array(
     'name' => 'create vote content',
     'roles' => array(
-      'authenticated user' => 'authenticated user',
+      'administrator' => 'administrator',
+      'verified user' => 'verified user',
     ),
     'module' => 'node',
   );
