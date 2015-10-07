@@ -47,7 +47,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['field_party_short']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_party_short']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_party_short']['group_column'] = 'value';
-  /* Field: Field: Canton */
+  /* Field: Field: Swiss canton of residency */
   $handler->display->display_options['fields']['field_taxo_canton']['id'] = 'field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['field'] = 'field_taxo_canton';
@@ -58,7 +58,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Contextual filter: Field: Canton (field_taxo_canton) */
+  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
@@ -116,6 +116,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['title'] = 'Electoral list';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'create vote content';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -221,7 +222,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['field_list_place_1_value']['id'] = 'field_list_place_1_value';
   $handler->display->display_options['sorts']['field_list_place_1_value']['table'] = 'field_data_field_list_place_1';
   $handler->display->display_options['sorts']['field_list_place_1_value']['field'] = 'field_list_place_1_value';
-  /* Contextual filter: Field: Canton (field_taxo_canton) */
+  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
@@ -252,7 +253,8 @@ return $term[\'und\'][0][\'tid\'];';
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'electoral-list';
-  $handler->display->display_options['menu']['title'] = 'Vote';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Vote now!';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;

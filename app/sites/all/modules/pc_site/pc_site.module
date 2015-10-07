@@ -7,10 +7,47 @@
 include_once 'pc_site.features.inc';
 
 
-function pc_site_form_user_register_form_alter(&$form, &$form_state,$form_id) {
-  //$form['#submit'][] = 'pc_site_form_user_register_submit';
+function pc_site_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+    $form['sms_user']['gateway']['country']['#type'] = 'value';
+    $form['sms_user']['gateway']['country']['#value'] = 41;
+    $form['sms_user']['number']['#description'] = t('Eg. 079 555 33 22. You will receive a message to confirm your mobile information upon login.');
+    $form['sms_user']['number']['#title'] = t('Swiss mobile phone number');
+    $form['sms_user']['number']['#attributes'] = array('placeholder' => '079 555 33 22');
+    unset($form['sms_user']['#type']);
 }
 
-function pc_site_form_user_register_submit($form, &$form_state) {
-  //$form_state['redirect'] = 'user/' . $uid . '/edit/mobile';
+function pc_site_form_sms_user_settings_add_form_alter(&$form, &$form_state, $form_id) {
+    $form['gateway']['country']['#type'] = 'value';
+    $form['gateway']['country']['#value'] = 41;
+    $form['number']['#description'] = t('Eg. 079 555 33 22. You will receive a message to confirm your mobile information.');
+    $form['number']['#title'] = t('Swiss mobile phone number');
+    $form['number']['#attributes'] = array('placeholder' => '079 555 33 22');
+}
+
+function pc_site_form_sms_user_settings_reset_form_alter(&$form, &$form_state, $form_id){
+    dpm($form);
+    $form['vote_link'] = array(
+        '#markup' => '<a href="/electoral-list" type="button" class="btn btn-primary btn-lg">' . t('Vote now!') . '</a>',
+    );
+
+}
+
+
+
+ /**
+  * Implements hook_module_implements_alter().
+  *
+  * Move my_module_form_alter() to the end of the list. module_implements()
+  * iterates through $implementations with a foreach loop which PHP iterates
+  * in the order that the items were added, so to move an item to the end of
+  * the array, we remove it and then add it
+  */
+function pc_site_module_implements_alter(&$implementations, $hook) {
+    if ($hook == 'form_alter') {
+        if(isset($implementations['pc_site'])){
+            $group = $implementations['pc_site'];
+            unset($implementations['pc_site']);
+            $implementations['pc_site'] = $group;
+        }
+    }
 }

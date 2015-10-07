@@ -192,7 +192,7 @@ function pc_site_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The Swiss canton you are officially living in.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -204,7 +204,7 @@ function pc_site_field_default_field_instances() {
     ),
     'entity_type' => 'user',
     'field_name' => 'field_taxo_canton',
-    'label' => 'Canton',
+    'label' => 'Swiss canton of residency',
     'required' => 1,
     'settings' => array(
       'user_register_form' => 1,
@@ -221,10 +221,11 @@ function pc_site_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Canton');
   t('First name');
   t('Last name');
   t('Nationality');
+  t('Swiss canton of residency');
+  t('The Swiss canton you are officially living in.');
   t('slug');
 
   return $field_instances;
