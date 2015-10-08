@@ -47,7 +47,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['field_party_short']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_party_short']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_party_short']['group_column'] = 'value';
-  /* Field: Field: Swiss canton of residency */
+  /* Field: Field: Canton (taxo) */
   $handler->display->display_options['fields']['field_taxo_canton']['id'] = 'field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['field'] = 'field_taxo_canton';
@@ -58,7 +58,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
+  /* Contextual filter: Field: Canton (taxo) (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
@@ -223,7 +223,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['field_list_place_1_value']['id'] = 'field_list_place_1_value';
   $handler->display->display_options['sorts']['field_list_place_1_value']['table'] = 'field_data_field_list_place_1';
   $handler->display->display_options['sorts']['field_list_place_1_value']['field'] = 'field_list_place_1_value';
-  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
+  /* Contextual filter: Field: Canton (taxo) (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
