@@ -71,7 +71,7 @@ function pc_site_init()
     if (!user_access('create vote content')) {
         $url = '/user/' . $user->uid . '/edit/mobile';
         drupal_set_message(
-            t('To vote, first please <a href="@url">validate your mobile number</a> so we are pretty sure your live in Switzerland.', array('@url' => $url)),
+            t('To vote, please  <a href="@url">validate your mobile phone number</a> first to verify you live in Switzerland.', array('@url' => $url)),
             'status',
             FALSE
         );

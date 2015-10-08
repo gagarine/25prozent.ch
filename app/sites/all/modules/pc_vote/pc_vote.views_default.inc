@@ -47,7 +47,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['field_party_short']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_party_short']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_party_short']['group_column'] = 'value';
-  /* Field: Field: Canton (taxo) */
+  /* Field: Field: Swiss canton of residency */
   $handler->display->display_options['fields']['field_taxo_canton']['id'] = 'field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['fields']['field_taxo_canton']['field'] = 'field_taxo_canton';
@@ -58,7 +58,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Contextual filter: Field: Canton (taxo) (field_taxo_canton) */
+  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
@@ -148,7 +148,7 @@ function pc_vote_views_default_views() {
   <h4>Select a list or pick candidates individually</h4>
 <p>You can <a href="/node/add/vote"><strong>pick each candidate individually</strong></a> or chose a list below.</p>
 <p>If you choose a list, you can modify it (adding or removing candidate from the list) in the next step before validating your vote.</p>
-<p>You don\'t know witch candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you chose.
+<p>You don\'t know which candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you choose.
 </div>
 
 
@@ -223,7 +223,7 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['sorts']['field_list_place_1_value']['id'] = 'field_list_place_1_value';
   $handler->display->display_options['sorts']['field_list_place_1_value']['table'] = 'field_data_field_list_place_1';
   $handler->display->display_options['sorts']['field_list_place_1_value']['field'] = 'field_list_place_1_value';
-  /* Contextual filter: Field: Canton (taxo) (field_taxo_canton) */
+  /* Contextual filter: Field: Swiss canton of residency (field_taxo_canton) */
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['id'] = 'field_taxo_canton_tid';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['table'] = 'field_data_field_taxo_canton';
   $handler->display->display_options['arguments']['field_taxo_canton_tid']['field'] = 'field_taxo_canton_tid';
