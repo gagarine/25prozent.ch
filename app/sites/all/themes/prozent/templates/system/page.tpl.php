@@ -178,7 +178,7 @@
         ?>
 
 
-        <p class="text-center"><?php echo t('25% of people living in Switzerland are  foreigners. We will report their voice.'); ?></p>
+        <p class="text-center"><?php echo t('25% of people living in Switzerland are  foreigners. We will make their voices heard.'); ?></p>
 
       <?php else: ?>
       <?php print render($page['content']); ?>
