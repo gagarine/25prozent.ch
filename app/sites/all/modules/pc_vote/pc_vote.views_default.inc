@@ -148,6 +148,7 @@ function pc_vote_views_default_views() {
   <h4>Select a list or pick candidates individually</h4>
 <p>You can <a href="/node/add/vote"><strong>pick each candidate individually</strong></a> or chose a list below.</p>
 <p>If you choose a list, you can modify it (adding or removing candidate from the list) in the next step before validating your vote.</p>
+<p>You don\'t know witch candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you chose.
 </div>
 
 

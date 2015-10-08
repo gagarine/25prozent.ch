@@ -159,7 +159,7 @@
         } elseif($logged_in && !user_access('create vote content')){
           global $user;
           ?>
-            <p class="text-center">To vote, first please validate your mobile number so we know your are in switzerland.</p>
+            <p class="text-center">To vote, first please validate your mobile number so we are pretty sure your live in Switzerland.</p>
           <p class="text-center"><a type="button" href="/user/<?php echo $user->uid; ?>/edit/mobile" class="btn btn-warning btn-lg">Ok. Let me validate my mobile number.</a></p>
         <?php }else{ ?>
           <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg">Let me vote</a></p>

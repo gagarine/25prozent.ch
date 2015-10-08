@@ -25,14 +25,11 @@ function pc_site_form_sms_user_settings_add_form_alter(&$form, &$form_state, $fo
 }
 
 function pc_site_form_sms_user_settings_reset_form_alter(&$form, &$form_state, $form_id){
-    dpm($form);
     $form['vote_link'] = array(
         '#markup' => '<a href="/electoral-list" type="button" class="btn btn-primary btn-lg">' . t('Vote now!') . '</a>',
     );
 
 }
-
-
 
  /**
   * Implements hook_module_implements_alter().
@@ -48,6 +45,36 @@ function pc_site_module_implements_alter(&$implementations, $hook) {
             $group = $implementations['pc_site'];
             unset($implementations['pc_site']);
             $implementations['pc_site'] = $group;
+        }
+    }
+}
+
+function pc_site_init(){
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        return;
+    }
+    if(!user_is_logged_in()){
+        return;
+    }
+
+    global $user;
+
+    // user can't create vote therefor it didn't validate is number
+    if(!user_access('create vote content')){
+        $url = '/user/' . $user->uid . '/edit/mobile';
+        drupal_set_message(
+            t('To vote, first please <a href="@url">validate your mobile number</a> so we are pretty sure your live in Switzerland.', array('@url' => $url)),
+            'status',
+            FALSE
+        );
+    } else {
+        if(current_path() != 'electoral-list' && current_path() != 'node/add/vote'){
+
+        // We need to check if the user already voted
+        $result = db_query("SELECT COUNT(*) FROM {node} WHERE type = 'vote' AND uid = :uid", array(':uid' => $user->uid));
+        if($result->fetchField() < 1){
+            drupal_set_message(t("Don't forget to <a href='/electoral-list'>vote</a>."),'status' ,FALSE);
+        }
         }
     }
 }
