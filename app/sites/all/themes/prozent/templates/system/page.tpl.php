@@ -152,18 +152,32 @@
 
         <h1 style="margin-top: 120px;" class="text-center">2015 Swiss federal election</h1>
         <h2 class="text-center"> – Foreigners get to vote – </h2>
-
-        <?php if($logged_in && user_access('create vote content')){ ?>
-          <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Vote Now!</a></p>
-        <?php
-        } elseif($logged_in && !user_access('create vote content')){
-          global $user;
+        <?php if ($logged_in && pc_site_user_has_voted()) { ?>
+          <p class="text-center"><strong>Thanks</strong> for your vote.</p>
+          <p class="text-center">Feel free to <strong>share and talk</strong> about 25prozent.ch around you!</p>
+          <?php
+        } else {
           ?>
-            <p class="text-center">To vote, first please validate your mobile number so we are pretty sure your live in Switzerland.</p>
-          <p class="text-center"><a type="button" href="/user/<?php echo $user->uid; ?>/edit/mobile" class="btn btn-warning btn-lg">Ok. Let me validate my mobile number.</a></p>
-        <?php }else{ ?>
-          <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg">Let me vote</a></p>
-        <?php } ?>
+          <?php if ($logged_in && user_access('create vote content')) { ?>
+            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Vote Now!</a>
+            </p>
+            <?php
+          } elseif ($logged_in && !user_access('create vote content')) {
+            global $user;
+            ?>
+            <p class="text-center">To vote, first please validate your mobile number so we are pretty sure your live in
+              Switzerland.</p>
+            <p class="text-center"><a type="button" href="/user/<?php echo $user->uid; ?>/edit/mobile"
+                                      class="btn btn-warning btn-lg">Ok. Let me validate my mobile number.</a></p>
+          <?php } else { ?>
+            <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg">Let me vote</a>
+            </p>
+            <?php
+          }
+        }
+        ?>
+
+
         <p class="text-center">25% of people living in Switzerland are  foreigner. We will report their voice.</p>
 
       <?php else: ?>
