@@ -157,22 +157,6 @@ function pc_vote_views_default_views() {
     ),
   );
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['label'] = 'information';
-  $handler->display->display_options['header']['area']['content'] = '<div class="bs-callout bs-callout-warning">
-  <h4>Select a list or pick candidates individually</h4>
-<p>You can <a href="/node/add/vote"><strong>pick each candidate individually</strong></a> or chose a list below.</p>
-<p>If you choose a list, you can modify it (adding or removing candidate from the list) in the next step before validating your vote.</p>
-<p>You don\'t know which candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you choose.
-</div>
-
-
-
-';
-  $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Relationship: Content: Taxonomy terms on node */
   $handler->display->display_options['relationships']['term_node_tid']['id'] = 'term_node_tid';
   $handler->display->display_options['relationships']['term_node_tid']['table'] = 'node';
@@ -294,17 +278,6 @@ return $term[\'und\'][0][\'tid\'];';
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('information'),
-    t('<div class="bs-callout bs-callout-warning">
-  <h4>Select a list or pick candidates individually</h4>
-<p>You can <a href="/node/add/vote"><strong>pick each candidate individually</strong></a> or chose a list below.</p>
-<p>If you choose a list, you can modify it (adding or removing candidate from the list) in the next step before validating your vote.</p>
-<p>You don\'t know which candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you choose.
-</div>
-
-
-
-'),
     t('term list name'),
     t('.'),
     t(','),

@@ -159,17 +159,17 @@
         } else {
           ?>
           <?php if ($logged_in && user_access('create vote content')) { ?>
-            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg"><?php echo t('Vote Now!'); ?></a>
+            <p class="text-center"><a type="button" href="<?php echo url('electoral-list'); ?>" class="btn btn-primary btn-lg"><?php echo t('Vote Now!'); ?></a>
             </p>
             <?php
           } elseif ($logged_in && !user_access('create vote content')) {
             global $user;
             ?>
             <p class="text-center"><?php echo t('To vote, please validate your mobile phone number first to verify you live in Switzerland.'); ?></p>
-            <p class="text-center"><a type="button" href="/user/<?php echo $user->uid; ?>/edit/mobile"
+            <p class="text-center"><a type="button" href="<?php echo url('user/' . $user->uid . '/edit/mobile'); ?>"
                                       class="btn btn-warning btn-lg"><?php echo t('Ok. Let me validate my mobile number.'); ?></a></p>
           <?php } else { ?>
-            <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg"><?php echo t('Vote Now!'); ?></a>
+            <p class="text-center"><a type="button" href="<?php echo url('user/register'); ?>" class="btn btn-primary btn-lg"><?php echo t('Vote Now!'); ?></a>
             </p>
             <?php
           }
