@@ -73,6 +73,7 @@ function pc_site_user_default_permissions() {
     'name' => 'access content overview',
     'roles' => array(
       'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -176,6 +177,15 @@ function pc_site_user_default_permissions() {
     'module' => 'context_ui',
   );
 
+  // Exported permission: 'administer entity translation'.
+  $permissions['administer entity translation'] = array(
+    'name' => 'administer entity translation',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'entity_translation',
+  );
+
   // Exported permission: 'administer features'.
   $permissions['administer features'] = array(
     'name' => 'administer features',
@@ -201,6 +211,24 @@ function pc_site_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'image',
+  );
+
+  // Exported permission: 'administer languages'.
+  $permissions['administer languages'] = array(
+    'name' => 'administer languages',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'locale',
+  );
+
+  // Exported permission: 'administer masquerade'.
+  $permissions['administer masquerade'] = array(
+    'name' => 'administer masquerade',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'masquerade',
   );
 
   // Exported permission: 'administer menu'.
@@ -544,6 +572,33 @@ function pc_site_user_default_permissions() {
     'module' => 'features',
   );
 
+  // Exported permission: 'masquerade as admin'.
+  $permissions['masquerade as admin'] = array(
+    'name' => 'masquerade as admin',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'masquerade',
+  );
+
+  // Exported permission: 'masquerade as any user'.
+  $permissions['masquerade as any user'] = array(
+    'name' => 'masquerade as any user',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'masquerade',
+  );
+
+  // Exported permission: 'masquerade as user'.
+  $permissions['masquerade as user'] = array(
+    'name' => 'masquerade as user',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'masquerade',
+  );
+
   // Exported permission: 'perform backup'.
   $permissions['perform backup'] = array(
     'name' => 'perform backup',
@@ -609,6 +664,65 @@ function pc_site_user_default_permissions() {
     'module' => 'devel',
   );
 
+  // Exported permission: 'toggle field translatability'.
+  $permissions['toggle field translatability'] = array(
+    'name' => 'toggle field translatability',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'entity_translation',
+  );
+
+  // Exported permission: 'translate admin strings'.
+  $permissions['translate admin strings'] = array(
+    'name' => 'translate admin strings',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'i18n_string',
+  );
+
+  // Exported permission: 'translate any entity'.
+  $permissions['translate any entity'] = array(
+    'name' => 'translate any entity',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'entity_translation',
+  );
+
+  // Exported permission: 'translate interface'.
+  $permissions['translate interface'] = array(
+    'name' => 'translate interface',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'locale',
+  );
+
+  // Exported permission: 'translate node entities'.
+  $permissions['translate node entities'] = array(
+    'name' => 'translate node entities',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'entity_translation',
+  );
+
+  // Exported permission: 'translate user-defined strings'.
+  $permissions['translate user-defined strings'] = array(
+    'name' => 'translate user-defined strings',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'i18n_string',
+  );
+
   // Exported permission: 'use PHP for label patterns'.
   $permissions['use PHP for label patterns'] = array(
     'name' => 'use PHP for label patterns',
@@ -616,6 +730,15 @@ function pc_site_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'auto_entitylabel',
+  );
+
+  // Exported permission: 'use PHP for tracking visibility'.
+  $permissions['use PHP for tracking visibility'] = array(
+    'name' => 'use PHP for tracking visibility',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'googleanalytics',
   );
 
   // Exported permission: 'use ctools import'.
