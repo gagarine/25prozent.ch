@@ -16,6 +16,12 @@ function pc_site_user_default_roles() {
     'weight' => 2,
   );
 
+  // Exported role: editor.
+  $roles['editor'] = array(
+    'name' => 'editor',
+    'weight' => 5,
+  );
+
   // Exported role: unverified user.
   $roles['unverified user'] = array(
     'name' => 'unverified user',
