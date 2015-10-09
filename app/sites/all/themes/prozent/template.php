@@ -13,3 +13,11 @@ function prozent_preprocess_node(&$variables) {
 
 
 }
+
+
+function prozent_links__locale_block(&$vars) {
+
+    $vars['attributes']['class'][] = 'nav';
+    $content = theme_links($vars);
+    return $content;
+}
