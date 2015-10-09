@@ -159,7 +159,7 @@
         } else {
           ?>
           <?php if ($logged_in && user_access('create vote content')) { ?>
-            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Vote Now!</a>
+            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Vote Now! <small>take 3min</small></a>
             </p>
             <?php
           } elseif ($logged_in && !user_access('create vote content')) {
@@ -169,13 +169,13 @@
             <p class="text-center"><a type="button" href="/user/<?php echo $user->uid; ?>/edit/mobile"
                                       class="btn btn-warning btn-lg"><?php echo t('Ok. Let me validate my mobile number.'); ?></a></p>
           <?php } else { ?>
-            <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg"><?php echo t('Vote Now!'); ?></a>
+            <p class="text-center"><a type="button" href="/user/register" class="btn btn-primary btn-lg"><?php echo t('Vote Now! <small>take 5min</small>'); ?></a>
             </p>
             <?php
           }
         }
         ?>
-          
+
         <p class="text-center"><?php echo t('25% of people living in Switzerland are  foreigners. We will make their voices heard.'); ?></p>
 
       <?php endif; ?>
