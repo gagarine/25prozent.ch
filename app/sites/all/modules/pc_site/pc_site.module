@@ -9,33 +9,32 @@ include_once 'pc_site.features.inc';
 
 /**
  * hook_boot
- *
- * Redirect user to the right language
  */
-//function pc_site_boot() {
-//    // Check if it's the front page
-//    // using hook_boot we avoid wasting resources
-//    // It's to early to use drupal_is_front_page because and we should avoid loading unnecessary extra resource
-//    if ($_GET['q'] == '' && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-//        // http_negotiate_language() is a better option but require  pecl_http >= 0.1.0
-//        // Locale::acceptFromHttp() require intl extension
-//        $langBrowser = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
-//
-//        // Get the activated language
-//        $langAvailable = language_list();
-//
-//        // set a default in case the language is not avaible
-//        $lang = 'en';
-//
-//        if(isset($langAvailable[$langBrowser]) ){
-//            $lang = $langAvailable[$langBrowser]->prefix;
-//        }
-//
-//        $http_response_code = 302;
-//        header('Location: ' . $lang, TRUE, $http_response_code);
-//
-//    }
-//}
+function pc_site_boot() {
+    // Check if it's the front page
+    // using hook_boot we avoid wasting resources
+    // It's to early to use drupal_is_front_page because and we should avoid loading unnecessary extra resource
+    if ($_GET['q'] == '' && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        // http_negotiate_language() is a better option but require  pecl_http >= 0.1.0
+        // Locale::acceptFromHttp() require intl extension
+        $langBrowser = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+
+        // Get the activated language
+        $langAvailable = language_list();
+
+        // set a default in case the language is not avaible
+        $lang = 'en';
+
+        if(isset($langAvailable[$langBrowser]) ){
+            $lang = $langAvailable[$langBrowser]->prefix;
+        }
+
+        $http_response_code = 302;
+        header('Location: ' . $lang, TRUE, $http_response_code);
+
+    }
+}
+
 
 function pc_site_form_user_register_form_alter(&$form, &$form_state, $form_id)
 {
