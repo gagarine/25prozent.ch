@@ -159,7 +159,7 @@
         } else {
           ?>
           <?php if ($logged_in && user_access('create vote content')) { ?>
-            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg">Vote Now! <small>take 3min</small></a>
+            <p class="text-center"><a type="button" href="/electoral-list" class="btn btn-primary btn-lg"><?php echo t('Vote Now! <small>take 5min</small>'); ?></a>
             </p>
             <?php
           } elseif ($logged_in && !user_access('create vote content')) {
