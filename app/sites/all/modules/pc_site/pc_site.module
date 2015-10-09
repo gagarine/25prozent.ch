@@ -12,7 +12,7 @@ include_once 'pc_site.features.inc';
  *
  * Redirect user to the right language
  */
-function cns_site_boot() {
+function pc_site_boot() {
     // Check if it's the front page
     // using hook_boot we avoid wasting resources
     // It's to early to use drupal_is_front_page because and we should avoid loading unnecessary extra resource
