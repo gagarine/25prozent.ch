@@ -57,8 +57,9 @@ function pc_site_form_sms_user_settings_add_form_alter(&$form, &$form_state, $fo
 
 function pc_site_form_sms_user_settings_reset_form_alter(&$form, &$form_state, $form_id)
 {
+    $url = url('electoral-list');
     $form['vote_link'] = array(
-        '#markup' => '<a href="/electoral-list" type="button" class="btn btn-primary btn-lg">' . t('Vote now!') . '</a>',
+        '#markup' => '<a href="' . $url . '" type="button" class="btn btn-primary btn-lg">' . t('Vote now!') . '</a>',
     );
 
 }
@@ -98,7 +99,7 @@ function pc_site_init()
 
     // user can't create vote therefor it didn't validate is number
     if (!user_access('create vote content')) {
-        $url = '/user/' . $user->uid . '/edit/mobile';
+        $url = url('user/' . $user->uid . '/edit/mobile');
         drupal_set_message(
             t('To vote, please  <a href="@url">validate your mobile phone number</a> first to verify you live in Switzerland.', array('@url' => $url)),
             'status',
@@ -107,9 +108,11 @@ function pc_site_init()
     } else {
         if (current_path() != 'electoral-list' && current_path() != 'node/add/vote') {
 
+            $url = url('electoral-list');
+
             // We need to check if the user already voted
             if (pc_site_user_has_voted() == false) {
-                drupal_set_message(t("Don't forget to <a href='/electoral-list'>vote</a>."), 'status', FALSE);
+                drupal_set_message(t("Don't forget to <a href='@url'>vote</a>.", array('@url' => $url)), 'status', FALSE);
             }
         }
     }
