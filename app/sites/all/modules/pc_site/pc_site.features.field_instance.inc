@@ -55,6 +55,49 @@ function pc_site_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-page-title_field'
+  $field_instances['node-page-title_field'] = array(
+    'bundle' => 'page',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'title_field',
+    'label' => 'Title',
+    'required' => TRUE,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'hide_label' => array(
+        'entity' => FALSE,
+        'page' => FALSE,
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -5,
+    ),
+  );
+
   // Exported field_instance: 'taxonomy_term-canton-field_slug'
   $field_instances['taxonomy_term-canton-field_slug'] = array(
     'bundle' => 'canton',
@@ -232,6 +275,7 @@ function pc_site_field_default_field_instances() {
   t('Nationality');
   t('Swiss canton of residency');
   t('The Swiss canton you are officially living in.');
+  t('Title');
   t('slug');
 
   return $field_instances;
