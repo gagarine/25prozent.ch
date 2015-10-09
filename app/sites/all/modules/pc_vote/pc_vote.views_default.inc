@@ -99,6 +99,24 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entityreference_fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $translatables['candidats_autocomplete'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('All'),
+    t('Entity Reference'),
+  );
   $export['candidats_autocomplete'] = $view;
 
   $view = new view();
@@ -189,10 +207,10 @@ function pc_vote_views_default_views() {
   $handler->display->display_options['fields']['nothing']['ui_name'] = 'button list select';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Chose this list';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Chose "[name]"';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = 'node/add/vote?listid=[tid]';
-  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'btn btn-primary';
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'btn btn-primary  btn-list-select';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Title: (politician name) */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -260,6 +278,41 @@ return $term[\'und\'][0][\'tid\'];';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $translatables['list'] = array(
+    t('Master'),
+    t('Electoral list'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('information'),
+    t('<div class="bs-callout bs-callout-warning">
+  <h4>Select a list or pick candidates individually</h4>
+<p>You can <a href="/node/add/vote"><strong>pick each candidate individually</strong></a> or chose a list below.</p>
+<p>If you choose a list, you can modify it (adding or removing candidate from the list) in the next step before validating your vote.</p>
+<p>You don\'t know which candidates can represent you the best? <a target="_blank" href="https://smartvote.ch">Smartvote.ch</a> can help you choose.
+</div>
+
+
+
+'),
+    t('term list name'),
+    t('.'),
+    t(','),
+    t('Chose "[name]"'),
+    t('list_place_1'),
+    t('All'),
+    t('Page'),
+  );
   $export['list'] = $view;
 
   return $export;

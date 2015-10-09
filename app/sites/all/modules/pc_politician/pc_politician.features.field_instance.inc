@@ -40,6 +40,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'elected',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -79,6 +80,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'First name',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -119,6 +121,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'Gender',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -161,6 +164,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'ID_Candidate',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'max' => '',
       'min' => '',
       'prefix' => '',
@@ -207,6 +211,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'ID_election',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'max' => '',
       'min' => '',
       'prefix' => '',
@@ -248,6 +253,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'ID_list',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -288,6 +294,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'ID_party',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -332,6 +339,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'incumbent',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -371,6 +379,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'Last name',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -411,6 +420,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'LINK_facebook',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -451,6 +461,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'LINK_portrait',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -491,6 +502,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'LINK_twitter',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -531,6 +543,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'list',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -573,6 +586,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'list_place_1',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'max' => '',
       'min' => '',
       'prefix' => '',
@@ -614,6 +628,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'party_short',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -655,6 +670,7 @@ function pc_politician_field_default_field_instances() {
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
+      'entity_translation_sync' => FALSE,
       'file_directory' => 'politician-photo',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
@@ -701,6 +717,7 @@ function pc_politician_field_default_field_instances() {
     'label' => 'Canton (taxo)',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(

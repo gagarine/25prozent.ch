@@ -38,6 +38,7 @@ function pc_vote_field_default_field_instances() {
     'label' => 'Candidats',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -79,6 +80,7 @@ function pc_vote_field_default_field_instances() {
     'label' => 'list',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(

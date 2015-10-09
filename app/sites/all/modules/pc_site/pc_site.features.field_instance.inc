@@ -40,6 +40,7 @@ function pc_site_field_default_field_instances() {
     'required' => FALSE,
     'settings' => array(
       'display_summary' => TRUE,
+      'entity_translation_sync' => FALSE,
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
@@ -74,6 +75,7 @@ function pc_site_field_default_field_instances() {
     'label' => 'slug',
     'required' => 0,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -108,6 +110,7 @@ function pc_site_field_default_field_instances() {
     'label' => 'Nationality',
     'required' => 1,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => 1,
     ),
     'widget' => array(
@@ -139,6 +142,7 @@ function pc_site_field_default_field_instances() {
     'label' => 'First name',
     'required' => 1,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => 1,
     ),
@@ -173,6 +177,7 @@ function pc_site_field_default_field_instances() {
     'label' => 'Last name',
     'required' => 1,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'text_processing' => 0,
       'user_register_form' => 1,
     ),
@@ -207,6 +212,7 @@ function pc_site_field_default_field_instances() {
     'label' => 'Swiss canton of residency',
     'required' => 1,
     'settings' => array(
+      'entity_translation_sync' => FALSE,
       'user_register_form' => 1,
     ),
     'widget' => array(
