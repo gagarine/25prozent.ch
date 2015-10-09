@@ -66,3 +66,5 @@ set :branch, 'master'
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+SSHKit.config.command_map[:composer] = "#{shared_path.join("composer.phar")}"
+SSHKit.config.command_map[:drush] = "#{shared_path.join("vendor/bin/drush")}"
