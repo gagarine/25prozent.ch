@@ -154,7 +154,7 @@
         <h2 class="text-center"> – <?php echo t("I'm a foreigner living in Switzerland, and I want the right to vote"); ?> – </h2>
         <?php if ($logged_in && pc_site_user_has_voted()) { ?>
           <p class="text-center"><?php echo t('<strong>Thanks</strong> for your vote.'); ?></p>
-          <p class="text-center"><?php echo t('Feel free to <strong>share and talk</strong> about 25prozent.ch around you!'); ?></p>
+          <p class="text-center"><?php echo t('<strong>Share and talk</strong> about 25prozent.ch around you!'); ?></p>
           <?php
         } else {
           ?>
@@ -175,13 +175,12 @@
           }
         }
         ?>
-
-
+          
         <p class="text-center"><?php echo t('25% of people living in Switzerland are  foreigners. We will make their voices heard.'); ?></p>
 
-      <?php else: ?>
-      <?php print render($page['content']); ?>
       <?php endif; ?>
+
+      <?php print render($page['content']); ?>
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
