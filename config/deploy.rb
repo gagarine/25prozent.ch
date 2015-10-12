@@ -26,7 +26,7 @@ set :app_path,        "app"
 # set :pty, true
 
 # Link file settings.php
-set :linked_files, fetch(:linked_files, []).push('app/sites/default/settings.php')
+set :linked_files, fetch(:linked_files, []).push('app/sites/default/settings.php', 'app/.htaccess')
 
 # Link dirs files and private-files
 set :linked_dirs, fetch(:linked_dirs, []).push('app/sites/default/files', 'private-files')
