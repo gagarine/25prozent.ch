@@ -42,7 +42,11 @@ function pc_site_form_user_register_form_alter(&$form, &$form_state, $form_id)
     $form['sms_user']['gateway']['country']['#value'] = 41;
     $form['sms_user']['number']['#description'] = t('Eg. 079 555 33 22. You will receive a message to confirm your mobile information upon login.');
     $form['sms_user']['number']['#title'] = t('Swiss mobile phone number');
-    $form['sms_user']['number']['#attributes'] = array('placeholder' => '079 555 33 22');
+    $form['sms_user']['number']['#attributes'] = array(
+        'placeholder' => '079 555 33 22',
+        'autocomplete' => 'off'
+    );
+
     unset($form['sms_user']['#type']);
 }
 
